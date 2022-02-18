@@ -54,12 +54,9 @@ compress xs
  | otherwise = head xs : (compress $ tail xs)
 
 -- Problem  9: Pack consecutive duplicates of list elements into sublists. 
--- pack :: (Eq a) => [a] -> [[a]]
--- pack [] = []
--- pack [x] = [[x]]
--- pack xs
---  | (head xs) == (head $ tail xs) = (head xs) : (pack $ tail xs) : 
---  | otherwise = head xs : (compress $ tail xs)
+pack :: (Eq a) => [a] -> [[a]]
+pack [] = []
+pack xs = (takeWhile (== (head xs)) xs) : (pack $ dropWhile (== (head xs)) xs)
 
 main =	do print $ myLast [1 ,2 ,3]
            print $ myLast [1, 2, 3, 4]
@@ -71,3 +68,4 @@ main =	do print $ myLast [1 ,2 ,3]
            print $ isPalindrome "tacocat"
            print $ myFlatten (List [Elem 1, List [Elem 2, List [Elem 3, Elem 4], Elem 5]])           
            print $ compress "aaabbcccxxaaddd"
+           print $ pack "aabbaa"
