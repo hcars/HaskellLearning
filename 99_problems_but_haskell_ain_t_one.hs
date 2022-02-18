@@ -56,7 +56,14 @@ compress xs
 -- Problem  9: Pack consecutive duplicates of list elements into sublists. 
 pack :: (Eq a) => [a] -> [[a]]
 pack [] = []
-pack xs = (takeWhile (== (head xs)) xs) : (pack $ dropWhile (== (head xs)) xs)
+pack xs = (takeWhile (== x) xs) : (pack $ dropWhile (== x) xs)
+          where x = head xs
+
+-- Problem 10: Run-length encoding of a list. Use the result of problem P09 to implement the so-called run-length encoding data compression method
+encode :: (Eq a) => [a] -> [(Int, a)]
+encode [] = []
+encode xs = ((length $ (takeWhile (== x)) xs), x) : (encode $ dropWhile (== x) xs)
+            where x = head xs 
 
 main =	do print $ myLast [1 ,2 ,3]
            print $ myLast [1, 2, 3, 4]
@@ -69,3 +76,4 @@ main =	do print $ myLast [1 ,2 ,3]
            print $ myFlatten (List [Elem 1, List [Elem 2, List [Elem 3, Elem 4], Elem 5]])           
            print $ compress "aaabbcccxxaaddd"
            print $ pack "aabbaa"
+           print $ encode "aabbaaddccc"
