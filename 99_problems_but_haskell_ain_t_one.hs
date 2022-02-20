@@ -1,6 +1,7 @@
 import System.Environment   
  
 data NestedList a = Elem a | List [NestedList a]
+data EncodeList a = Single a | Multiple Int a deriving (Show)
 
 -- My solutions to https://wiki.haskell.org/99_questions/ 
 
@@ -65,6 +66,21 @@ encode [] = []
 encode xs = ((length $ (takeWhile (== x)) xs), x) : (encode $ dropWhile (== x) xs)
             where x = head xs 
 
+
+-- Problem 11: Modify the result of problem 10 in such a way that if 
+-- an element has no duplicates it is simply copied into the result list. Only elements with duplicates are 
+-- transferred as (N E) lists. 
+encode_to_data :: [(Int, a)] -> [EncodeList a]
+encode_to_data [] = []
+encode_to_data (x:xs)
+    | count == 1 = (Single val) :  encode_to_data xs
+    | otherwise = (Multiple count val) : encode_to_data xs
+        where count = fst x
+              val = snd x
+
+encodeModified :: (Eq a) => [a] -> [EncodeList a]
+encodeModified = encode_to_data . encode
+
 main =	do print $ myLast [1 ,2 ,3]
            print $ myLast [1, 2, 3, 4]
            print $ myButLast [1, 2, 3]
@@ -77,3 +93,4 @@ main =	do print $ myLast [1 ,2 ,3]
            print $ compress "aaabbcccxxaaddd"
            print $ pack "aabbaa"
            print $ encode "aabbaaddccc"
+           print $ encodeModified "aabbaaddcccx"
