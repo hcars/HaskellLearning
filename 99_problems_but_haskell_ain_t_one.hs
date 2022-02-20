@@ -81,6 +81,15 @@ encode_to_data (x:xs)
 encodeModified :: (Eq a) => [a] -> [EncodeList a]
 encodeModified = encode_to_data . encode
 
+-- Problem 12: The inverse of encodeModified
+encodeListToList :: EncodeList a -> [a]
+encodeListToList (Single x) = [x]
+encodeListToList (Multiple cnt val) =  [val | i <- [1..cnt]]
+
+decodeModified :: [EncodeList a] -> [a]
+decodeModified [] = []
+decodeModified (x:xs) = encodeListToList x ++ decodeModified xs
+
 main =	do print $ myLast [1 ,2 ,3]
            print $ myLast [1, 2, 3, 4]
            print $ myButLast [1, 2, 3]
@@ -94,3 +103,4 @@ main =	do print $ myLast [1 ,2 ,3]
            print $ pack "aabbaa"
            print $ encode "aabbaaddccc"
            print $ encodeModified "aabbaaddcccx"
+           print $ decodeModified $ encodeModified "aabbaaddcccx"
