@@ -90,6 +90,12 @@ decodeModified :: [EncodeList a] -> [a]
 decodeModified [] = []
 decodeModified (x:xs) = encodeListToList x ++ decodeModified xs
 
+
+-- Problem 14: Duplicate the elements of a list.
+duplicate :: [a] -> [a]
+duplicate []  = []
+duplicate (x:xs) = x : x : duplicate xs
+
 main =	do print $ myLast [1 ,2 ,3]
            print $ myLast [1, 2, 3, 4]
            print $ myButLast [1, 2, 3]
@@ -104,3 +110,4 @@ main =	do print $ myLast [1 ,2 ,3]
            print $ encode "aabbaaddccc"
            print $ encodeModified "aabbaaddcccx"
            print $ decodeModified $ encodeModified "aabbaaddcccx"
+           print $ duplicate $ "aaxxyya"
