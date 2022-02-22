@@ -109,7 +109,17 @@ dropEveryHelper xs n cnt
         where x = head xs
 dropEvery :: [a] -> Int -> [a]
 dropEvery xs n = dropEveryHelper xs n 1
- 
+
+-- Problem 17: Split a list into two parts; the length of the first part is given. 
+splitHelper :: [a] -> Int -> Int -> Int -> [a]
+splitHelper [] _ _ _ = []
+splitHelper xs start end cnt
+    | (cnt + start) == end = [xs !! end]
+    | otherwise = (xs !! (start + cnt)) : splitHelper xs start end (cnt + 1)
+
+split :: [a] -> Int -> ([a], [a])
+split xs n = (splitHelper xs 0 (n - 1) 0, splitHelper xs n (length xs - 1) 0) 
+
 main =	do print $ myLast [1 ,2 ,3]
            print $ myLast [1, 2, 3, 4]
            print $ myButLast [1, 2, 3]
@@ -127,3 +137,4 @@ main =	do print $ myLast [1 ,2 ,3]
            print $ duplicate $ "aaxxyya"
            print $ myReplicate "abcd" 3
            print $ dropEvery "abcdefghik" 3
+           print $ split "abcdefghik" 3
