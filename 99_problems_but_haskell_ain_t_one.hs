@@ -120,6 +120,25 @@ splitHelper xs start end cnt
 split :: [a] -> Int -> ([a], [a])
 split xs n = (splitHelper xs 0 (n - 1) 0, splitHelper xs n (length xs - 1) 0) 
 
+-- Problem 18: Extract a slice from a list. 
+slice :: [a] -> Int -> Int -> [a]
+slice xs start end = fst $ split ( snd $ split xs (start - 1) ) (end - start + 1)
+
+-- Problem 19: Rotate a list N places to the left. 
+myRotate :: [a] -> Int -> [a]
+myRotate xs n
+    | n == 0 = xs
+    | n > 0 = snd splitListPos ++ fst splitListPos
+    | n < 0 = snd splitListNeg ++ fst splitListNeg
+        where splitListPos = split xs n
+              splitListNeg = split xs (length xs + n)
+
+-- Problem 20: Remove the Kth element from a list.
+removeK :: [a] -> Int -> ([a], [a])
+removeK xs k = (fst splitListRight, fst splitListLeft ++ snd splitListRight)
+                where splitListLeft = split xs (k - 1)
+                      splitListRight = split (snd splitListLeft) 1
+
 main =	do print $ myLast [1 ,2 ,3]
            print $ myLast [1, 2, 3, 4]
            print $ myButLast [1, 2, 3]
@@ -138,3 +157,7 @@ main =	do print $ myLast [1 ,2 ,3]
            print $ myReplicate "abcd" 3
            print $ dropEvery "abcdefghik" 3
            print $ split "abcdefghik" 3
+           print $ slice "abcdefghik" 3 7
+           print $ myRotate ['a','b','c','d','e','f','g','h'] 3
+           print $ myRotate ['a','b','c','d','e','f','g','h'] (-2)
+           print $ removeK "abcd" 2
