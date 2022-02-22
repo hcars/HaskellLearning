@@ -96,6 +96,20 @@ duplicate :: [a] -> [a]
 duplicate []  = []
 duplicate (x:xs) = x : x : duplicate xs
 
+-- Problem 15: Replicate the elements of a list a given number of times.
+myReplicate :: [a] -> Int -> [a]
+myReplicate xs cnt = [x | x <- xs, i <- [1..cnt]]
+
+-- Problem 16: Drop every n-th entry
+dropEveryHelper :: [a] -> Int -> Int -> [a]
+dropEveryHelper [] _ _ = []
+dropEveryHelper xs n cnt
+    | (cnt `mod` n == 0) && ( cnt > 0) = dropEveryHelper  (tail xs) n (cnt + 1)
+    |  otherwise = x : dropEveryHelper  (tail xs) n (cnt + 1)
+        where x = head xs
+dropEvery :: [a] -> Int -> [a]
+dropEvery xs n = dropEveryHelper xs n 1
+ 
 main =	do print $ myLast [1 ,2 ,3]
            print $ myLast [1, 2, 3, 4]
            print $ myButLast [1, 2, 3]
@@ -111,3 +125,5 @@ main =	do print $ myLast [1 ,2 ,3]
            print $ encodeModified "aabbaaddcccx"
            print $ decodeModified $ encodeModified "aabbaaddcccx"
            print $ duplicate $ "aaxxyya"
+           print $ myReplicate "abcd" 3
+           print $ dropEvery "abcdefghik" 3
