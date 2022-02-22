@@ -139,6 +139,13 @@ removeK xs k = (fst splitListRight, fst splitListLeft ++ snd splitListRight)
                 where splitListLeft = split xs (k - 1)
                       splitListRight = split (snd splitListLeft) 1
 
+-- Problem 31: Test if an integer is prime.
+isPrime :: Int -> Bool
+isPrime x = foldl (\acc curr_num -> acc && (x `mod` curr_num /= 0)) True [2 .. (x - 1)]
+isPrime x 
+        | x == 2 = True
+        | x <= 1 = False
+
 main =	do print $ myLast [1 ,2 ,3]
            print $ myLast [1, 2, 3, 4]
            print $ myButLast [1, 2, 3]
@@ -161,3 +168,7 @@ main =	do print $ myLast [1 ,2 ,3]
            print $ myRotate ['a','b','c','d','e','f','g','h'] 3
            print $ myRotate ['a','b','c','d','e','f','g','h'] (-2)
            print $ removeK "abcd" 2
+           print $ isPrime 5
+           print $ isPrime 4
+           print $ isPrime 3
+           print $ isPrime 2
