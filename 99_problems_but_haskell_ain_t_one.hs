@@ -146,6 +146,20 @@ isPrime x
         | x == 2 = True
         | x <= 1 = False
 
+-- Problem 32: Find the GCD of two numbers.
+myGcd :: Int -> Int -> Int
+myGcd x y 
+    | x > y = myGcd y x
+    | y `mod` x == 0 = x
+    | (x < 1) || (y < 1) = error "Must both be positive integers." 
+myGcd x y = myGcd x (y `mod` x)
+
+-- Problem 33: Return whether two positive integer numbers are coprime
+myCoprime :: Int -> Int -> Bool
+myCoprime x y 
+    | (x < 1) || (y < 1) = error "Must both be positive integers." 
+myCoprime x y = myGcd x y == 1
+
 main =	do print $ myLast [1 ,2 ,3]
            print $ myLast [1, 2, 3, 4]
            print $ myButLast [1, 2, 3]
@@ -172,3 +186,7 @@ main =	do print $ myLast [1 ,2 ,3]
            print $ isPrime 4
            print $ isPrime 3
            print $ isPrime 2
+           print $ myGcd 27 33
+           print $ myGcd 36 63
+           print $ myGcd 35 64
+           print $ myCoprime 35 64
