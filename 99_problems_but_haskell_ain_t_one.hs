@@ -1,4 +1,5 @@
-import System.Environment   
+import System.Environment
+import Data.List   
  
 data NestedList a = Elem a | List [NestedList a]
 data EncodeList a = Single a | Multiple Int a deriving (Show)
@@ -160,6 +161,30 @@ myCoprime x y
     | (x < 1) || (y < 1) = error "Must both be positive integers." 
 myCoprime x y = myGcd x y == 1
 
+-- Problem 34: Calculate Euler's totient function phi(m). 
+phi :: Int -> Int
+phi m = length $ filter (myCoprime m) [1 .. (m-1)]
+
+-- Problem 35: Return a list of the prime factors of the input.
+prime_factor_helper :: Int -> [Int] -> [Int]
+prime_factor_helper x primes 
+    | curr_prod == x = primes
+    | isPrime dividend = dividend : primes
+    | otherwise = prime_factors dividend ++ primes
+        where curr_prod = foldl (*) 1 primes
+              dividend = x `div` curr_prod
+
+prime_factors :: Int -> [Int]
+prime_factors x =  sort $ prime_factor_helper x [prime | prime <- [2 .. (x-1)], x `mod` prime == 0, isPrime prime] 
+
+-- Problem 36: Create list of prime factors and their multiplicity
+prime_multiplicity :: Int -> [(Int, Int)]
+prime_multiplicity  = encode . prime_factors 
+
+-- Problem 37: Calculate Euler's totient using prime factors.
+myPhiPrimes :: Int -> Int
+myPhiPrimes x = foldl (*) 1  (map (\prime_mult -> (snd prime_mult - 1) * (snd prime_mult) ^ (fst prime_mult - 1)) (prime_multiplicity x))
+
 main =	do print $ myLast [1 ,2 ,3]
            print $ myLast [1, 2, 3, 4]
            print $ myButLast [1, 2, 3]
@@ -190,3 +215,9 @@ main =	do print $ myLast [1 ,2 ,3]
            print $ myGcd 36 63
            print $ myGcd 35 64
            print $ myCoprime 35 64
+           print $ phi 10
+           print $ prime_factors 315
+           print $ prime_factors 12344
+           print $ prime_multiplicity 315
+           print $ myPhiPrimes 10
+        
