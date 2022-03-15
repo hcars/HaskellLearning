@@ -219,6 +219,37 @@ get_goldbach_nums lower upper = filter (\x -> x `mod` 2 == 0 && x > 2) [lower ..
 goldbach_list :: Int -> Int -> [(Int, Int)]
 goldbach_list lower upper = map  (\x -> goldbach x) (get_goldbach_nums lower upper)
 
+-- Problem 46: Implement the "and", "nand", "nor", "implies", "equivalent", and "or" operators.
+and' :: Bool -> Bool -> Bool
+and' False _ = False
+and' _ False = False
+and' True True = True
+
+or' :: Bool -> Bool -> Bool
+or' True _ = True
+or' _ True = True
+or' False False = False
+
+not' :: Bool -> Bool
+not' False = True
+not' True = False
+
+nor' :: Bool -> Bool -> Bool
+nor' a b = not' $ or' a b
+nand' :: Bool -> Bool -> Bool
+nand' a b = not' $ and' a b
+
+imply' :: Bool -> Bool -> Bool
+imply' False _ = True
+imply' True False = False
+imply' True True = True
+
+
+eq' :: Bool -> Bool -> Bool
+eq' x y
+  | x == y = True
+  | otherwise = False
+
 main =	do print $ myLast [1 ,2 ,3]
            print $ myLast [1, 2, 3, 4]
            print $ myButLast [1, 2, 3]
@@ -257,3 +288,6 @@ main =	do print $ myLast [1 ,2 ,3]
            print $ primesR 10 20
            print $ goldbach 28
            print $ goldbach_list 9 20
+           print $ and' True False
+           print $ nor' True False
+           print $ nor' False False
